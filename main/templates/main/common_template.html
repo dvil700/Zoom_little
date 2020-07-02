@@ -1,0 +1,33 @@
+{% extends "main/main.html" %}
+{% block bodyclass %} class="single" {% endblock %}
+
+{% block main_block %}
+
+  <main class="wrap">
+
+    <div class="breadcrumbs">
+      <div class="wrap">
+        <p>
+          <a href="./">Главная</a> / <a href="./about.html">{{page_name}}</a>
+        </p>
+      </div>
+    </div>
+
+    <section>
+      <div class="wrap">
+        {% block content %}
+
+
+        {% endblock %}
+      </div>
+
+
+
+   {% include 'main/left_column.html' %}
+
+
+   </section>
+  </main>
+
+
+{% endblock %}

@@ -1,0 +1,18 @@
+
+
+  <div class="wrap wrap__aside">
+    <div class="aside">
+    {% load static %}
+    <a href="./" aria-label="гланая"><img src="{% static "main/img/header__logo.png" %}" alt="" class="aside__logo"></a>
+
+      <nav class="aside__nav nav">
+          <ul class="nav__list">
+              <li class="nav__item nav__item--photo"><a href="{% url 'photo' %}" class="nav__link active">Фото на документы</a></li>
+              <li class="nav__item nav__item--about"><a href="{% url 'about' %}" class="nav__link">О нас</a></li>
+              <li class="nav__item nav__item--contact"><a href="{% url 'contact' %}" class="nav__link">Контакты</a></li>
+          </ul>
+      </nav>
+
+      <div><a href="{% url 'feedback' %}" class="aside__btn btn">Связаться с нами</a></div>
+    </div>
+  </div>

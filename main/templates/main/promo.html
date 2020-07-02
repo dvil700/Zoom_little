@@ -1,0 +1,23 @@
+{% extends "main/common_template.html" %}
+
+{% block addins  %}
+  {% load static %}
+   <script src="{% static 'main/js/jquery.min.js' %}"> </script>
+   <script src="{% static 'main/js/form_engine.js' %}"> </script>
+{% endblock %}
+
+
+{% block content %}
+
+
+<form id="promo_form" class="form" action="" method="post">
+  {% csrf_token %}
+  {% for field in promo_form %}
+    {{field}}
+    {{field.errors}}
+  {% endfor %}
+ <button id="submit_button" class="btn" >Отправить</button>
+
+</form>
+
+{% endblock %}

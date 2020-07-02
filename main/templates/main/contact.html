@@ -1,0 +1,43 @@
+{% extends "main/common_template.html" %}
+
+
+{% block content %}
+
+        <h1>Контакты </h1>
+
+        <div class="center-lg-left">
+          <ul class="list-contact">
+            <li class="list-contact__item list-contact__item--geo">г. Волгоград&#160; <br class="hidde-md">
+              ул. Рабоче-Крестьянская 14</li>
+            <li class="list-contact__item list-contact__item--email">
+              <a href="mailto:fotosalon2006@mail.ru">fotosalon2006@mail.ru</a>
+            </li>
+            <li class="list-contact__item list-contact__item--phone">
+              <a href="tel:+7(902)0959759">+7(902) 095-97-59</a>
+            </li>
+            <li class="list-contact__item">
+              <table class="chart">
+                <caption>График работы:</caption>
+                <tr>
+                  <td>пн-чт</td>
+                  <td>10:00 - 18:00</td>
+                </tr>
+                <tr>
+                  <td>пт</td>
+                  <td>10:00 - 17:00</td>
+                </tr>
+                <tr>
+                  <td>сб</td>
+                  <td>11:00 - 16:00</td>
+                </tr>
+                <tr>
+                  <td>вс</td>
+                  <td>выходной</td>
+                </tr>
+              </table>
+            </li>
+          </ul>
+        </div>
+
+
+{% endblock %}

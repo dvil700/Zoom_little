@@ -1,0 +1,34 @@
+{% extends "main/common_template.html" %}
+
+
+{% block content %}
+
+       <h1>Фото на документы </h1>
+
+        <div class="photo_single photo_single--photo"></div>
+
+        <h2>Наши преимущества</h2>
+        <div class="center-lg-left">
+          <ul class="list-green list-green--photo">
+            <li>Делаем множество кадров</li>
+            <li>Бесплатная обработка</li>
+            <li>Результат через 5 минут</li>
+            <li>Профессиональное оборудование</li>
+            <li>Освещение без теней</li>
+            <li>Монтаж (пиджак, форма)</li>
+          </ul>
+        </div>
+
+        <div class="lg-width-100 lg-width-100--photo">
+          <div>
+            <p class="warning warning--photo">Не устроил результат?&nbsp;<br class="hidde-md"> Не возьмем оплату!</p>
+
+            <p class="discount"><span class="strong">СКИДКИ 10%</span> по промкоду</p>
+
+            <a href="{% url "promo" %}" type="button" class="btn">Сгенерировать код</a>
+
+          </div>
+        </div>
+
+
+{% endblock %}

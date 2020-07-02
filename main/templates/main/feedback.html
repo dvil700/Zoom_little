@@ -1,0 +1,50 @@
+{% extends "main/common_template.html" %}
+
+{% block addins  %}
+  {% load static %}
+   <script src="{% static 'main/js/jquery.min.js' %}"> </script>
+   <script src="{% static 'main/js/form_engine.js' %}"> </script>
+{% endblock %}
+
+{% block content %}
+
+
+    <h1>Выберите удобный способ связи </h1>
+
+                <div class="center">
+                    <ul class="list-contact">
+                        <li class="list-contact__item list-contact__item--email">
+                            Напишите нам на почту
+                            <a class="md-right" href="mailto:fotosalon2006@mail.ru">fotosalon2006@mail.ru</a></li>
+                        <li class="list-contact__item list-contact__item--phone">
+                            Позвоните нам
+                            <a class="md-right" href="tel:+7(902)0959759">+7(902) 095-97-59</a></li>
+
+                        <li class="list-contact__item">
+
+                            <form id="callback_form" class="form" action="{% url 'feedback'  %}" method="post">
+                                {% csrf_token %}
+                                <h2 class="text-light">Закажите обратный звонок</h2>
+                                {% for field in callback_form %}
+                                     {{field}}
+                                     {{field.errors}}
+                                {% endfor %}
+
+                                 <button id="submit_button" class="btn" >Отправить</button>
+
+
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+    <script>
+
+        (function(){
+            let url = "{% url 'feedback' %}";
+            let form_id = 'callback_form';
+            let response_handler = new AlertResponseHandler();
+            addFormSubmitListner(url, form_id, response_handler);
+        })();
+    </script>
+
+{% endblock %}
