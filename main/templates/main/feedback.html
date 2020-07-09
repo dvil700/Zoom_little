@@ -11,7 +11,7 @@
 
     <h1>Выберите удобный способ связи </h1>
 
-                <div class="center">
+                <div class="center-lg-left">
                     <ul class="list-contact">
                         <li class="list-contact__item list-contact__item--email">
                             Напишите нам на почту
@@ -38,13 +38,20 @@
                     </ul>
                 </div>
     <script>
-
         (function(){
             let url = "{% url 'feedback' %}";
             let form_id = 'callback_form';
-            let response_handler = new AlertResponseHandler();
-            addFormSubmitListner(url, form_id, response_handler);
+
+            let mediator = (new FormMediatorFactory()).getMediator(document.getElementById(form_id));
+            let handler = (new ResponseHandlerFactory(mediator)).getResponseHandler();
+            document.getElementById(form_id).addEventListener('submit', function(event){
+                event.preventDefault();
+                ajax_form_request(url, form_id, handler);
+            });
+
+
         })();
+
     </script>
 
 {% endblock %}

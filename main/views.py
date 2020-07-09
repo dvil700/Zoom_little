@@ -5,7 +5,7 @@ from django.views import View
 from .services import PromoSimpleService, PromoCodeGeneratorService, OnePromoOnePersonStrategy, PromoExistsError
 from django.core.mail import send_mail
 from datetime import datetime
-
+import traceback
 
 # Create your views here.
 
@@ -21,11 +21,6 @@ def contact(request):
     return render(request, 'main/contact.html', {'page_name': "Контакты"})
 
 
-def photo(request):
-    return render(request, 'main/photo.html', {'page_name': "Фото на документы"})
-
-
-
 class FormJsonResponseFactory:
     def __init__(self):
         self._fields_errors = []
@@ -34,6 +29,9 @@ class FormJsonResponseFactory:
         for field in form:
             for error in field.errors:
                 self._fields_errors.append(dict(id=field.id_for_label, error=error))
+
+    def add_field_error(self, field_id, msg):
+        self._fields_errors.append(dict(id=field_id, error=msg))
 
     def add_form(self, form):
         if form.is_valid():
@@ -47,12 +45,11 @@ class FormJsonResponseFactory:
         response_dict = dict(result=result, general_errors='', fields_errors=self._fields_errors)
         return JsonResponse(response_dict)
 
-    def get_negative_response(self, errors: list, show_form_errors=True):
+    def get_negative_response(self, errors: list = [], show_form_errors=True):
         response_dict = dict(result=False, general_errors=errors, fields_errors=[])
         if show_form_errors:
             response_dict['fields_errors'] = self._fields_errors
         return JsonResponse(response_dict)
-
 
 
 class FeedBackView(View):
@@ -66,13 +63,17 @@ class FeedBackView(View):
         response_factory = FormJsonResponseFactory()
         response_factory.add_form(callback_form)
 
+        if not callback_form.is_valid():
+            return response_factory.get_negative_response()
+
+        message = 'Обратный звонок. Имя: {name}, Телефон: {phone_number}'.format(**callback_form.cleaned_data)
+
+        send_mail('Zoom: Заявка на обратный звонок', message, 'fzoom34@mail.ru',
+                 ['dvil@mail.ru'], fail_silently=False)
+
         return response_factory.get_response()
 
-       # if not callback_form.is_valid():
-         #   return render(request, 'main/call_back_form.html', {'callback_form': callback_form, 'st':True})
-
-        #send_mail('Zoom: Заявка на обратный звонок', '', 'site_zoom@zoom_photo.ru',
-                  #['dvil@mail.ru'], fail_silently=False)
+        #
 
         #return render(request, 'main/call_back_form.html', {'callback_form':  CallBackForm()})
 
@@ -82,14 +83,12 @@ def feedback(request):
     return render(request, 'main/feedback.html', {'page_name': "Форма обратной связи", 'callback_form': calback_form})
 
 
-
+def photo(request):
+    promo_form = PromoForm()
+    return render(request, 'main/photo.html', {'page_name': "Фото на документы", 'promo_form': promo_form})
 
 
 class PromoView(View):
-    def get(self, request):
-        promo_form = PromoForm()
-        return render(request, 'main/promo.html', {'promo_form': promo_form})
-
     def post(self, request):
         promo_form = PromoForm(request.POST)
 
@@ -97,7 +96,7 @@ class PromoView(View):
         response_factory.add_form(promo_form)
 
         if not promo_form.is_valid():
-            return response_factory.get_negative_response([])
+            return response_factory.get_negative_response()
 
         email = promo_form.cleaned_data['email']
 
@@ -113,7 +112,14 @@ class PromoView(View):
             promocode = promo_service.create_promocode(promo_name, email, promo_expiration_date)
 
         except Exception as PromoExistsError:
-            return response_factory.get_negative_response(['Для адреса {} ранее уже был выдан промокод'.format(email), ])
+            response_factory.add_field_error(promo_form['email'].id_for_label,
+                                             'Для адреса {} ранее уже был выдан промокод'.format(email))
+
+            return response_factory.get_negative_response()
+        message = '''Ваш опромокод для получения скидки на фото услуги: {}.
+            Промокод возможно использовать только один раз. Срок действия промокода до {}. 
+            '''.format(promocode, promo_expiration_date.strftime('%d.%m.%Y'))
+        send_mail('foto-zoom34: Промокод', message, 'fzoom34@mail.ru', [email], fail_silently=False)
 
         return response_factory.get_response()
 

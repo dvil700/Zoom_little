@@ -1,5 +1,10 @@
 {% extends "main/common_template.html" %}
 
+{% block addins  %}
+  {% load static %}
+   <script src="{% static 'main/js/jquery.min.js' %}"> </script>
+   <script src="{% static 'main/js/form_engine.js' %}"> </script>
+{% endblock %}
 
 {% block content %}
 
@@ -25,10 +30,38 @@
 
             <p class="discount"><span class="strong">СКИДКИ 10%</span> по промкоду</p>
 
-            <a href="{% url "promo" %}" type="button" class="btn">Сгенерировать код</a>
+            <form id='promo_form' action="" class="form form--promo">
+              <h2>Введите данные, для отправки кода на электронную почту</h2>
+                {% csrf_token %}
+                {% for field in promo_form %}
+                  {{field}}
+                {% endfor %}
+
+              <button class="btn btn--theme">Сгенерировать код</button>
+            </form>
+
 
           </div>
         </div>
 
+
+
+    <script>
+        (function(){
+            let url = "{% url 'promo' %}";
+            let form_id = 'promo_form';
+
+            let mediator = (new FormMediatorFactory()).getMediator(document.querySelector('form'));
+            let handler = (new ResponseHandlerFactory(mediator)).getResponseHandler();
+            document.getElementById(form_id).addEventListener('submit', function(e){
+                e.preventDefault();
+                ajax_form_request(url, form_id, handler);
+            });
+
+
+        })();
+
+    </script>
+    </script>
 
 {% endblock %}

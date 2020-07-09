@@ -25,7 +25,7 @@ SECRET_KEY = '4$gccr_&+0n9wpdrc5b7exyun%x!&%f_lp_^^@7)x1-=9w6#md'
 DEBUG = True
 #POST_MORTEM = True  # django_pdb parameter
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['zoomlittle.ru']
 
 # Application definition
 
@@ -113,6 +113,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'fzoom34'
+EMAIL_HOST_PASSWORD = 'Pochtatest#2020'
+EMAIL_USE_SSL =True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
