@@ -288,7 +288,7 @@ function ResponseHandlerFactory(form_mediator, success_msg = 'Данные ус�
 
 
 function ajax_form_request(url, form_id, response_handler, capcha_token=null){
-    let data = $('#'+form_id).serialize()+(capcha_token?('&capcha_token='+capcha_token):'');
+    let data = $('#'+form_id).serialize()+(capcha_token?('&captcha_token='+encodeURI(capcha_token)):'');
     jQuery.post(url, data, function(response){
        if (response.result){
            document.getElementById(form_id).reset()
@@ -303,23 +303,20 @@ function ajax_form_request(url, form_id, response_handler, capcha_token=null){
 
 
 
-function addFormSubmitListner(url, form_id, response_handler){
+function addFormSubmitListner(url, form_id, response_handler, captcha_site_key){
     document.getElementById(form_id).addEventListener('submit', function(e){
         e.preventDefault();
-	            ajax_form_request(url, form_id, response_handler);
-
+        grecaptcha.ready(function() {
+            grecaptcha.execute(captcha_site_key, {action: 'submit'}).then(function(token) {
+	            ajax_form_request(url, form_id, response_handler, token);
+             });
+        });
      });
 
 }
 
 
-function onClick() {
-    grecaptcha.ready(function() {
-        grecaptcha.execute('6LeeTqoZAAAAAByyQfzBY7MzV8hIrZFcq_jobOdR', {action: 'submit'}).then(function(token) {
 
-        });
-    });
-}
 
 
 

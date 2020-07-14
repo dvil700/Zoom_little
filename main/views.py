@@ -5,7 +5,7 @@ from django.views import View
 from .services import PromoSimpleService, PromoCodeGeneratorService, OnePromoOnePersonStrategy, PromoExistsError
 from django.core.mail import send_mail
 from datetime import datetime
-import traceback
+from .captcha import recaptcha_site_key, re_captcha_dec, get_captcha_src
 
 # Create your views here.
 
@@ -56,8 +56,10 @@ class FeedBackView(View):
     def get(self, request):
         callback_form = CallBackForm()
         return render(request, 'main/feedback.html',
-                      {'page_name': "Форма обратной связи", 'callback_form': callback_form})
+                      {'page_name': "Форма обратной связи", 'callback_form': callback_form,
+                       'recaptcha_site_key': recaptcha_site_key})
 
+    @re_captcha_dec
     def post(self, request):
         callback_form = CallBackForm(request.POST)
         response_factory = FormJsonResponseFactory()
@@ -73,22 +75,16 @@ class FeedBackView(View):
 
         return response_factory.get_response()
 
-        #
-
-        #return render(request, 'main/call_back_form.html', {'callback_form':  CallBackForm()})
-
-
-def feedback(request):
-    calback_form = CallBackForm()
-    return render(request, 'main/feedback.html', {'page_name': "Форма обратной связи", 'callback_form': calback_form})
 
 
 def photo(request):
     promo_form = PromoForm()
-    return render(request, 'main/photo.html', {'page_name': "Фото на документы", 'promo_form': promo_form})
+    return render(request, 'main/photo.html', {'page_name': "Фото на документы", 'promo_form': promo_form,
+                                                'recaptcha_site_key': recaptcha_site_key})
 
 
 class PromoView(View):
+    @re_captcha_dec
     def post(self, request):
         promo_form = PromoForm(request.POST)
 
@@ -111,7 +107,7 @@ class PromoView(View):
         try:
             promocode = promo_service.create_promocode(promo_name, email, promo_expiration_date)
 
-        except Exception as PromoExistsError:
+        except PromoExistsError:
             response_factory.add_field_error(promo_form['email'].id_for_label,
                                              'Для адреса {} ранее уже был выдан промокод'.format(email))
 

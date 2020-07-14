@@ -1,9 +1,16 @@
 {% extends "main/common_template.html" %}
 
+{% block title%}
+<title> Фото на документы в Волгогографии. Качественные фотографии в фостостудии Zoom34.</title>
+{% endblock %}
+
 {% block addins  %}
   {% load static %}
    <script src="{% static 'main/js/jquery.min.js' %}"> </script>
+   <script src="https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}"></script>
+
    <script src="{% static 'main/js/form_engine.js' %}"> </script>
+
 {% endblock %}
 
 {% block content %}
@@ -47,21 +54,20 @@
 
 
     <script>
+
         (function(){
             let url = "{% url 'promo' %}";
             let form_id = 'promo_form';
 
             let mediator = (new FormMediatorFactory()).getMediator(document.querySelector('form'));
             let handler = (new ResponseHandlerFactory(mediator)).getResponseHandler();
-            document.getElementById(form_id).addEventListener('submit', function(e){
-                e.preventDefault();
-                ajax_form_request(url, form_id, handler);
-            });
+
+            addFormSubmitListner(url, form_id, handler, "{{recaptcha_site_key}}");
 
 
         })();
 
     </script>
-    </script>
+
 
 {% endblock %}

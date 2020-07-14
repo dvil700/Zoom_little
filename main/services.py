@@ -47,7 +47,7 @@ class PromoSimpleService:
                 promo_object= PromoCodeStorage(promo=promo, promo_code=promo_code, email=email,
                                                  expiration_date=exp_date)
                 promo_object.save()
-                break
+                return promo_code
             except IntegrityError:
                 pass
         raise IntegrityError

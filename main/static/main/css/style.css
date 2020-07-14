@@ -485,8 +485,7 @@ a:hover {
 }
 .list-contact .list-contact__item {
   position: relative;
-  padding-left: 55px;
-  padding: 1.5em 0 1.5em 55px;
+  padding: 1.5em 0 1.5em 75px;
   font-size: 17px;
   line-height: 129.4%;
   letter-spacing: 0.02em;
@@ -504,6 +503,7 @@ a:hover {
   }
 }
 .list-contact .list-contact__item a {
+  display: inline-block;
   position: relative;
   text-decoration: none;
   color: #383838;
@@ -542,11 +542,16 @@ a:hover {
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
-  left: 0;
+  left: 18px;
   top: 50%;
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
+}
+@media (min-width: 736px) {
+  .list-contact .list-contact__item::before {
+    left: 0;
+  }
 }
 .list-contact .list-contact__item--geo::before {
   background-image: url(../img/icon-geo.png);
@@ -625,9 +630,9 @@ a:hover {
   }
 }
 .form {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -636,7 +641,6 @@ a:hover {
       -ms-flex-align: center;
           align-items: center;
   margin: 0 auto 45px;
-  width: 100%;
 }
 .form h2 {
   font-weight: 300;
@@ -657,10 +661,11 @@ a:hover {
 .form input[type='text'],
 .form input[type='email'],
 .form input[type='tel'] {
-  max-width: 250px;
+  max-width: 200px;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
+  border-radius: 0;
   border: none;
   background-color: transparent;
   -webkit-box-shadow: none;
@@ -862,6 +867,9 @@ header .wrap {
     text-align: center;
   }
 }
+body:not(.single) .aside__btn {
+  margin-bottom: 50px;
+}
 @media (min-width: 1024px) {
   body:not(.single) .wrap__aside {
     -webkit-box-align: start;
@@ -899,11 +907,11 @@ body:not(.single) .aside {
 body:not(.single) .aside::after {
   content: '';
   display: block;
-  position: absolute;
-  top: 50px;
+  position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
-  height: calc(100% - 50px);
+  height: 100%;
   z-index: -1;
   background-image: url(../img/bg_index.jpg);
   background-repeat: no-repeat;

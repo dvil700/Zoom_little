@@ -1,5 +1,9 @@
 {% extends "main/common_template.html" %}
 
+{% block title%}
+<title> Контакты. Фотосалон Zoom34.</title>
+{% endblock %}
+
 
 {% block content %}
 
@@ -39,5 +43,17 @@
           </ul>
         </div>
 
+
+{% endblock %}
+
+{% block content_bottom %}
+   <div class="wrap-map">
+    <script>
+      window.onload = function () {
+        document.querySelector('.wrap-map').innerHTML = '<iframe SameSite="Secure" class="map" src="https://yandex.ru/map-widget/v1/?um=constructor%3A0a01cf3d8af31bc908bed75db0aeff1e748244296b1594e984bad8d1a3f93b74&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>';
+      }
+    </script>
+
+  </div>
 
 {% endblock %}
