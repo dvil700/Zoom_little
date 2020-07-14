@@ -71,7 +71,7 @@ class FeedBackView(View):
         message = 'Обратный звонок. Имя: {name}, Телефон: {phone_number}'.format(**callback_form.cleaned_data)
 
         send_mail('Zoom: Заявка на обратный звонок', message, 'fzoom34@mail.ru',
-                 ['dvil@mail.ru'], fail_silently=False)
+                 ['fzoom34@mail.ru'], fail_silently=False)
 
         return response_factory.get_response()
 
