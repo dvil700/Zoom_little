@@ -25,7 +25,7 @@ SECRET_KEY = '4$gccr_&+0n9wpdrc5b7exyun%x!&%f_lp_^^@7)x1-=9w6#md'
 DEBUG = True
 #POST_MORTEM = True  # django_pdb parameter
 
-ALLOWED_HOSTS = ['zoomlittle.ru']
+ALLOWED_HOSTS = ['zoomlittle.ru', '127.0.0.1']
 
 # Application definition
 
@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main'
+    'main',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,6 @@ EMAIL_USE_SSL =True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+RECAPTCHA_SITE_KEY = '6Le39a8ZAAAAAEj4VfsPMepoXN2ZULPkWmhaX7Zs'
+RECAPTCHA_SECRET = '6Le39a8ZAAAAAMjJPNI8XN9G2RQ1OGxd-o3w3thZ'

@@ -22,12 +22,10 @@ class GoogleDataSource(CaptcaDataSourceAbstract):
     def get_data(self) -> str:
         google_request = requests.post('https://www.google.com/recaptcha/api/siteverify',
                                        dict(secret=self._secret, response=self._recaptcha_field))
-
         return google_request.text
 
 
 class CaptchaSerializerABC:
-
     @property
     @abstractmethod
     def is_valid(self):
@@ -84,10 +82,7 @@ class ReCaptcha3:
         data = self.parse_json(str_data)
         if 'error-codes' in data:
             data['error_codes'] = data.pop('error-codes')
-
-
         serializer = self.get_serializer(data)
-
         if not serializer.is_valid():
             return True
 
@@ -103,7 +98,6 @@ class ReCaptcha3:
 
 
 recaptcha_site_key = settings.RECAPTCHA_SITE_KEY
-
 
 def get_captcha_src():
     return '< script  src = "https://www.google.com/recaptcha/api.js?render={}" > < / script >'.format(settings.RECAPTCHA_SITE_KEY)

@@ -1,7 +1,7 @@
-import random
-from .models import Promo, PromoCodeStorage
 from abc import ABC, abstractmethod
+import random
 from django.db import IntegrityError
+from .models import Promo, PromoCodeStorage
 
 
 class PromoCodeGeneratorService:
@@ -60,18 +60,9 @@ class PromoSimpleService:
         except Promo.DoesNotExist:
             promo = Promo(name=promo_name)
             promo.save()
-
-
         try:
             PromoCodeStorage.objects.get(promo=promo, email=email)
             self._promo_exists_strategy.execute()
 
         except PromoCodeStorage.DoesNotExist:
             return self._save_promocode(promo, email, exp_date, promo_code)
-
-
-
-
-
-   # def set_new_promo(self, promo_name):
-

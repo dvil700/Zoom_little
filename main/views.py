@@ -1,13 +1,12 @@
-from django.shortcuts import render, HttpResponse
-from django.http import JsonResponse
-from .forms import CallBackForm, PromoForm
-from django.views import View
-from .services import PromoSimpleService, PromoCodeGeneratorService, OnePromoOnePersonStrategy, PromoExistsError
-from django.core.mail import send_mail
 from datetime import datetime
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.views import View
+from django.core.mail import send_mail
 from .captcha import recaptcha_site_key, re_captcha_dec, get_captcha_src
+from .services import PromoSimpleService, PromoCodeGeneratorService, OnePromoOnePersonStrategy, PromoExistsError
+from .forms import CallBackForm, PromoForm
 
-# Create your views here.
 
 def index(request):
     return render(request, 'main/index.html', {})
@@ -74,7 +73,6 @@ class FeedBackView(View):
                  ['fzoom34@mail.ru'], fail_silently=False)
 
         return response_factory.get_response()
-
 
 
 def photo(request):

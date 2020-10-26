@@ -1,7 +1,7 @@
 from django.test import TestCase
-from .services import PromoSimpleService, PromoCodeGeneratorService, OnePromoOnePersonStrategy, PromoExistsError
 from datetime import datetime
-# Create your tests here.
+from .services import PromoSimpleService, PromoCodeGeneratorService, OnePromoOnePersonStrategy, PromoExistsError
+
 
 class TestServices(TestCase):
     def test_generator(self):
@@ -23,7 +23,6 @@ class TestServices(TestCase):
         try:
             promocode2 = promo_service.create_promocode('xxx', 'dvil@mail.ru',
                                                        datetime.strptime('2020-08-31', '%Y-%m-%d').date())
-
             self.assertEqual(True, False, 'Должно было произойти исключение PromoExistsError')
         except Exception as e:
             self.assertEqual(e, PromoExistsError)

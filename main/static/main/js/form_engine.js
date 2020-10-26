@@ -102,11 +102,6 @@ function FailFormResultView(form_mediator){
 FailFormResultView.prototype = Object.create(AbstractFormResultView.prototype);
 
 
-
-
-
-
-
 function OnInputEventManager(){
     this.manager = null;
     this.event_listner_function = null;
@@ -132,9 +127,7 @@ function OnInputEventManager(){
         this.manager.getField().addEventListener('input', this.getEventListnerFunction());
     }
 
-
 }
-
 
 
 function ErrorEntityFactory(hint_element_html_class_name=null){
@@ -165,7 +158,6 @@ function ErrorEntityFactory(hint_element_html_class_name=null){
         return error_message_elem[0];
     };
    
-
 }
 
 

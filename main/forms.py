@@ -15,9 +15,6 @@ class PromoForm(Form):
                        attrs={'type': 'email', 'placeholder': 'Ваш e-mail', 'aria-label': 'Ваш e-mail'}))
 
 
-
-
-
 class ReCaptcha(Form):
     captcha_token = CharField(max_length=2000)
 
